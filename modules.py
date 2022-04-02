@@ -11,9 +11,9 @@ def Train(images):
         encodedList.append(encd)
     return encodedList
 
-img = face_recognition.load_image_file('Test1.jpeg')
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-encoed = face_recognition.face_encodings(img)[0]
-
-results = face_recognition.compare_faces(Train(['Image\kalam.jpg', 'Image\jeff.jpeg']), encoed)
-print(results)
+def Test(imgLoc, trainedList):
+    img = face_recognition.load_image_file(imgLoc)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    encoed = face_recognition.face_encodings(img)[0]
+    results = face_recognition.compare_faces(trainedList, encoed)
+    
