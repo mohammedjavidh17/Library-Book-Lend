@@ -16,4 +16,4 @@ def Test(imgLoc, trainedList):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     encoed = face_recognition.face_encodings(img)[0]
     results = face_recognition.compare_faces(trainedList, encoed)
-    
+    return results
