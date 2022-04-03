@@ -40,6 +40,7 @@ def mainWindow():
     frame = LabelFrame(root)
     frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.99, relheight=0.99)
     Button(frame,text="Go", command=LendBook).pack()
+    Button(frame,text="Go1", command=Returnbook).pack()
 
 def LendBook():
     clrScreen()
@@ -64,7 +65,7 @@ def LendBook():
         today = date.today()
         todaysDate = today.strftime("%d/%m/%Y")         #PersonId ,Code, LendDate
         Lend_list = [                                   
-            data[-1], data[1], str(todaysDate)
+            data[-1], data[0], str(todaysDate)
         ]
         df_Lend = pd.DataFrame([Lend_list], columns=('PersonId' ,'Code', 'LendDate'))
         for wid in VideoFrame.winfo_children():
@@ -79,7 +80,7 @@ def LendBook():
         Label(VideoFrame, text="RegNo : "+RegNo, font=(Font_Text, 25)).pack()
         Label(VideoFrame, text="Book : "+bookName, font=(Font_Text, 25)).pack()
         Label(VideoFrame, text="Date :" +todaysDate, font=(Font_Text, 25)).pack()
-        Button(VideoFrame, text="Confrim", font=(Font_Text, 25), command=lambda: ConfrimAdd(df_Lend)).pack()
+        Button(VideoFrame, text="Confirm", font=(Font_Text, 25), command=lambda: ConfrimAdd(df_Lend)).pack()
         Button(VideoFrame, text="Cancel", font=(Font_Text, 25), command=mainWindow).pack()
 
     for x in range(25, 0, -1):
@@ -158,8 +159,49 @@ def LendBook():
             time.sleep(2)
             mainWindow()
 def Returnbook():
+    clrScreen()
     frame = LabelFrame(root)
     frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.99, relheight=0.99)
+    frameTr = Frame(frame)
+    frameTr.place(relx=0.5, rely=0.5, anchor=CENTER)
+    tr = modules.TableDis([], ("RegNo", "Name", "Phone", "Mail", "Book Code", "Book Name", "Lend Date"), 30, frameTr, False, 180)
+    df_Lend = pd.read_csv("BookLend.csv")
+    df_book = pd.read_csv("books.csv")
+    df_data = pd.read_csv("data.csv")
+    def remove():
+        Lend_indx = []
+        for b in tr.selection():
+            lst = list(tr.item(b)['values'])
+            regNo = str(lst[0])
+            bokCode = int(lst[-3])
+            repStu_ind = list(df_data.index[df_data.iloc[:, 1] == regNo])[0]
+            repBok_ind = list(df_book.index[df_book.iloc[:, -1] == bokCode])[0]
+            df_buf = df_Lend[df_Lend.iloc[:, 0] == repStu_ind]
+            val= list(df_buf.index[df_buf.iloc[:, 1] == repBok_ind])[0]
+            df_Lend.drop(labels=[val], axis=0, inplace=True)
+            loc = 'BookLend.csv'
+            df_Lend.to_csv(loc, index=False, mode = 'w', columns = None, header = True)
+            Returnbook()
+
+    for x in range(df_Lend.shape[0]):
+        to_dis_list = []
+        stu_ind = int(df_Lend.iloc[x, 0])
+        bok_ind = int(df_Lend.iloc[x, 1])
+        stu_name = str(df_data.iloc[stu_ind, 3])
+        stu_reg = str(df_data.iloc[stu_ind, 1])
+        stu_phone= str(df_data.iloc[stu_ind, -2])
+        stu_mail = str(df_data.iloc[stu_ind, -1])
+        bok_name = str(df_book.iloc[bok_ind, 0])
+        bok_code = str(df_book.iloc[bok_ind, -1])
+        lendat = str(df_Lend.iloc[x, -1])
+        lst = [stu_reg, stu_name, stu_phone, stu_mail, bok_code, bok_name, lendat]
+        to_dis_list.append(lst)
+        df = pd.DataFrame(to_dis_list)
+        modules.TableApp(df, tr, False)
+    Button(frame, text= "Remove", font=(Font_Text, 20), command=remove).place(relx=0.025, rely=0.025, anchor=NW)
+    Button(frame, text="Back", font=(Font_Text, 20), command=mainWindow).place(relx=0.975, rely=0.025, anchor=NE)
+    
+    
 
 mainWindow()
 root.mainloop()
