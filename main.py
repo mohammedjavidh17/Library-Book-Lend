@@ -1,11 +1,16 @@
-import modules
+import modules, face_recognition
 import cv2
 import pandas as pd
 from tkinter import * #For Gui
 from PIL import Image, ImageTk 
 
+lst = list(pd.read_csv('data.csv').iloc[:, 0])
+TrainedList = modules.Train(lst)
+print("trained Succesfull")
+
 #FontDetials
 Font_Title = "Consolas"
+Font_Text = "Consolas"
 
 #MainWindow
 root = Tk() #Root
@@ -20,6 +25,12 @@ def clrScreen():                                #destroy all the widget in the r
             x.destroy()
     except:
         pass
+def PlotFace(img):
+    try:
+        loc = face_recognition.face_locations(img)[0]
+        cv2.rectangle(img, (loc[0], loc[3]), (loc[2], loc[1]), (225,0,255), 2)
+    except:
+        pass
 
 def mainWindow():  
     clrScreen()                             #MainWindow
@@ -28,6 +39,8 @@ def mainWindow():
     Button(frame,text="Go", command=LendBook).pack()
 
 def LendBook():
+    def post_LendBook(results):
+        pass
     clrScreen()
 
     cam = cv2.VideoCapture(0)
@@ -36,11 +49,13 @@ def LendBook():
     frm.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.99, relheight=0.99)
     VideoFrame = Frame(frm) #Frame to display video
     VideoFrame.place(relx=0.5, rely=0.5, anchor=CENTER)
-
+    
     Label(frm, text="Welcome", font=(Font_Title, 30)).place(relx=0.5, rely=0.01, anchor=N) #Title
 
-    for x in range(100):
+    for x in range(50, 0, -1):
+        Label(VideoFrame, text="Face Recognition", font=(Font_Title, 20)).pack()
         check, frame = cam.read()
+        PlotFace(frame)
         #Rearrang the color channel
         b,g,r = cv2.split(frame)
         img = cv2.merge((r,g,b))
@@ -50,9 +65,14 @@ def LendBook():
             a.destroy()
         # Put it in the display window
         Label(VideoFrame, image=imgtk).pack()
-        Label(VideoFrame, text=str(int(x/10))+" sec").pack()
+        Label(VideoFrame, text=str(int(x/5)), font=(Font_Title, 20), fg='red').pack()
+        result = modules.Test(frame, TrainedList)
+        for buf in result:
+            if buf:
+                post_LendBook(result)
         root.update()
-        cv2.waitKey(100)
+        if x == 1:
+            mainWindow()
 
 
 mainWindow()
