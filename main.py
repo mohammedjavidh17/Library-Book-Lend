@@ -1,6 +1,8 @@
 import modules, face_recognition
 import cv2, time
+from datetime import date
 import pandas as pd
+from tkinter import messagebox
 from tkinter import * #For Gui
 from PIL import Image, ImageTk 
 
@@ -51,8 +53,34 @@ def LendBook():
     
     Label(frm, text="Welcome", font=(Font_Title, 30)).place(relx=0.5, rely=0.01, anchor=N) #Title
 
-    def post_LendBook(results):
-        pass
+    def post_LendBook(data, a ,df_book): #[book_ind[0], str(data), ind[0]]
+        def ConfrimAdd(df):
+            loc = "BookLend.csv"
+            df.to_csv(loc, index=False, mode = 'a', columns = None, header = False)
+            mainWindow()
+            root.update()
+            messagebox.showinfo('Succesfull', "Process Sucessfull.!\nThankYou for using Me")
+            
+        today = date.today()
+        todaysDate = today.strftime("%d/%m/%Y")         #PersonId ,Code, LendDate
+        Lend_list = [                                   
+            data[-1], data[1], str(todaysDate)
+        ]
+        df_Lend = pd.DataFrame([Lend_list], columns=('PersonId' ,'Code', 'LendDate'))
+        for wid in VideoFrame.winfo_children():
+            wid.destroy()
+        stu_ind = data[-1]
+        bk_ind = data[0]
+        Name = str(Data.iloc[stu_ind, 3])
+        RegNo= str(Data.iloc[stu_ind, 1])
+        bookName = str(df_book.iloc[bk_ind, 0])
+        Label(VideoFrame, text="Lend Information", font=(Font_Title, 35)).pack()
+        Label(VideoFrame, text="Name : "+Name, font=(Font_Text, 25)).pack()
+        Label(VideoFrame, text="RegNo : "+RegNo, font=(Font_Text, 25)).pack()
+        Label(VideoFrame, text="Book : "+bookName, font=(Font_Text, 25)).pack()
+        Label(VideoFrame, text="Date :" +todaysDate, font=(Font_Text, 25)).pack()
+        Button(VideoFrame, text="Confrim", font=(Font_Text, 25), command=lambda: ConfrimAdd(df_Lend)).pack()
+        Button(VideoFrame, text="Cancel", font=(Font_Text, 25), command=mainWindow).pack()
 
     for x in range(25, 0, -1):
         check, frame = cam.read()
@@ -106,7 +134,9 @@ def LendBook():
                                 book_ind.append(cd)
                         if len(book_ind) == 0:
                             continue
-                    post_LendBook(book_ind[0], ind[0])
+                        cam.release()
+                        post_LendBook([book_ind[0], str(data), ind[0]], Data, book) 
+                        
                     cv2.waitKey(100)
                 if x == 1:
                     for wid in VideoFrame.winfo_children():
@@ -127,7 +157,9 @@ def LendBook():
             root.update()
             time.sleep(2)
             mainWindow()
-
+def Returnbook():
+    frame = LabelFrame(root)
+    frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.99, relheight=0.99)
 
 mainWindow()
 root.mainloop()
