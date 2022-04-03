@@ -27,3 +27,8 @@ it will allow to take book
 
 https://user-images.githubusercontent.com/98268633/161421675-05dc32bb-5a53-47cd-adf3-a26aef206c37.mp4
 
+# RETURNING BOOK
+Only Librarian have the access to this window
+
+https://user-images.githubusercontent.com/98268633/161422128-e73b8d5f-7a87-4dca-b822-fdafcb092efc.mp4
+
