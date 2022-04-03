@@ -1,3 +1,11 @@
-ImageLoc, RegNo, Name, Department, Batch, PhoneNo, Mail
-Image\jeff.jpeg, RA2111026010148,2025, Jeff Bezz, B.Tech, 8667546371, mm1632@srmist.edu.in
-Image\kalam.jpg, RA2111026010159,2025, Abdul kalam, B.Tech, 9842082012, ss0621@srmist.edu.in
+ImageLoc, RegNo, Batch, Name, Department, PhoneNo, Mail
+Image\Dhoni.jpg, RA21110260111, 2023, MS DHONI , BTECH, 9466366216, ms0987@srmist.edu.in
+Image\Raina.jpg, RA21110260122, 2024, SURESH RAINA , BTECH, 9874563210, sr4345@srmist.edu.in
+Image\Virat.jpg, RA21110260133, 2024, VIRAT KOHLI , BTECH, 8976542130, vk0987@srmist.edu.in
+Image\Messi.jpg, RA21110260144, 2023, MESSI , BTECH, 9567021345, lm2132@srmist.edu.in
+Image\Rohit.jpg, RA21110260155, 2024, ROHIT SHARMA, BTECH, 7869053421, ra4556@srmist.edu.in
+Image\Jadeja.jpg, RA21110260166, 2024, JADEJA, BTECH, 6382629578, rj9090@srmist.edu.in
+Image\Vijay.jpg, RA21110260177, 2023, VIJAY, BTECH, 7809963090, jv9809@srmist.edu.in
+Image\Elon.jpg, RA21110260188, 2023, ELON MUSK, BTECH, 9876543021, em2345@srmist.edu.in
+Image\Tom Holland.jpg, RA21110260199, 2025, TOM HOLLAND, BTECH, 8057098903, th9832@srmist.edu.in
+Image\Dhawan.jpg, RA21110260210, 2024, DHAWAN, BTECH, 8907653214, sd8765@srmist.edu.in
