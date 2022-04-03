@@ -39,8 +39,6 @@ def mainWindow():
     Button(frame,text="Go", command=LendBook).pack()
 
 def LendBook():
-    def post_LendBook(results):
-        pass
     clrScreen()
 
     cam = cv2.VideoCapture(0)
@@ -52,8 +50,10 @@ def LendBook():
     
     Label(frm, text="Welcome", font=(Font_Title, 30)).place(relx=0.5, rely=0.01, anchor=N) #Title
 
+    def post_LendBook(results):
+        pass
+
     for x in range(50, 0, -1):
-        Label(VideoFrame, text="Face Recognition", font=(Font_Title, 20)).pack()
         check, frame = cam.read()
         PlotFace(frame)
         #Rearrang the color channel
@@ -64,12 +64,35 @@ def LendBook():
         for a in VideoFrame.winfo_children():
             a.destroy()
         # Put it in the display window
+        Label(VideoFrame, text="Face Recognition", font=(Font_Title, 20)).pack()
         Label(VideoFrame, image=imgtk).pack()
         Label(VideoFrame, text=str(int(x/5)), font=(Font_Title, 20), fg='red').pack()
+        root.update()
+        if x > 45:
+            continue
         result = modules.Test(frame, TrainedList)
         for buf in result:
             if buf:
-                post_LendBook(result)
+                print(result)
+                for x in range(100, 0, -1):
+                    detector = cv2.QRCodeDetector()
+                    Chk, qrFrame = cam.read()
+                    data, bbox, _ = detector.detectAndDecode(qrFrame)
+                    b,g,r = cv2.split(qrFrame)
+                    img = cv2.merge((r,g,b))
+                    im = Image.fromarray(img)
+                    imgtk = ImageTk.PhotoImage(image=im) 
+                    for a in VideoFrame.winfo_children():
+                        a.destroy()
+                    # Put it in the display window
+                    Label(VideoFrame, text="Qr Code", font=(Font_Title, 20)).pack()
+                    Label(VideoFrame, image=imgtk).pack()
+                    Label(VideoFrame, text=str(int(x/10)), font=(Font_Title, 20), fg='red').pack()
+                    root.update()
+                    
+                    print(data)
+                    cv2.waitKey(100)
+                    
         root.update()
         if x == 1:
             mainWindow()
