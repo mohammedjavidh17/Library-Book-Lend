@@ -1,4 +1,4 @@
-# SRM-BOYS_SRMHackathon SRM Hackathon 6.0 
+
 # Automatic 'BOOK LEND FOR LIBRARY' software
 You don't have to registar or write anything manually on the record before lending book from library
 this software will takecare it.
