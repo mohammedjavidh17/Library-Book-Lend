@@ -6,7 +6,7 @@ this software will takecare of it.
 
 
 # DEMO
-Fisrt it will ckeck weather the person is member of library
+Fisrt program will ckeck weather the person is member of library
 if yes it ask the QRcode of the book that they want to lend
 
 
@@ -14,14 +14,14 @@ https://user-images.githubusercontent.com/98268633/161421543-4d6f3f7f-1797-4868-
 
 
 ## SCANNING INVALID QR
-if QR is not recognized it will return back
+if QR is not recognized program will exit the loop
 
 
 https://user-images.githubusercontent.com/98268633/161421588-cae8b75d-7621-4f93-bf59-7ab6983eec14.mp4
 
 ## IF PERSON NOT A MEMBER OF LIBRARY
 # access will be denied
-if the human face is not found or if they are not a member of library
+if the person's face is not found or if they are not a member of library
 access will be denied.
 
 
